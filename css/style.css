@@ -20,3 +20,98 @@ html, body {
     height: 100%;
 }
 
+
+
+/*
+ *
+ * Drawer menu
+ * Copied from W3C and adapted for this application
+ *
+ */
+.hamburger {
+    position: absolute;
+    top: 10px;
+    left: 15px;
+    font-size:1.5em;
+    cursor:pointer;
+    margin-right: .3em;
+    z-index: 0;
+}
+
+.overlay {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-direction: column;
+        flex-direction: column;
+
+    height: 100%;
+    width: 0;
+
+    position: fixed;
+    overflow-x: hidden;
+    z-index: 1;
+    top: 7px;
+    left: 1;
+
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0, 0.9);
+
+    transition: 0.5s;
+    color: #7b9cb9;
+}
+
+.overlay.open {
+    width: 75%;
+}
+
+.overlay-content, .overlay-content-small {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-direction: column;
+        flex-direction: column;
+
+    /*margin-top: 1em;*/
+    padding: 1em;
+}
+
+
+.profile-pic {
+    max-height: 30%;
+}
+
+.overlay-title {
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+.overlay ul {
+    margin: 0;
+    padding: 0;
+}
+
+.overlay li, .closebtn {
+    padding: 0.2em;
+    text-decoration: none;
+    font-size: 1em;
+    font-weight: bold;
+    color: #818181;
+    /*display: block;*/
+    list-style: none
+}
+
+.overlay li:hover {
+    color: #f1f1f1;
+    transition: 0.3s;
+}
+
+.overlay .closebtn {
+    position: absolute;
+    right: 5px;
+    font-size: 3em;
+    z-index: 1;
+}
+
+.overlay hr {
+    border-color: #f1f1f1;
+    width: 100%;
+}

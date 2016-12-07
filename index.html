@@ -14,14 +14,48 @@
     <link rel="stylesheet" href="css/style.css">
   </head>
 
-  <body>
+    <body>
       <div id="map"></div>
 
-      <script src="js/app.js"></script>
+        <!-- Add hamburger menu -->
+        <span class="hamburger" onclick="toggleNav()">&#9776;</span>
 
-      <script src="https://maps.googleapis.com/maps/api/js?
+
+
+        <!-- Add drawer menu with appropriate option if the user is logged in -->
+        <div id="myNav" class="overlay">
+            <a href="javascript:void(0)" class="closebtn" onclick="toggleNav()">&times;</a>
+
+            <div class="overlay-content-small">
+                <div class="overlay-title">
+                Options
+                </div>
+
+                <li>New item</li>
+                <hr>
+            </div>
+
+            <!-- Populate the drawer with links to categories  -->
+            <div class="overlay-content">
+                <div class="overlay-title">
+                    Categories
+                </div>
+
+                <ul id="locations-list" data-bind="foreach: locations">
+                    <li data-bind="text: name"></li>
+                </ul>
+
+            </div>
+        </div>
+
+
+        <script src="js/knockout-3.4.1.js"></script>
+        <script src="js/app.js"></script>
+        <script src="js/map.js"></script>
+
+        <script src="https://maps.googleapis.com/maps/api/js?
               key=AIzaSyDhXe13Q7PPa0_gmdT9LLWDtsZm0dV4Z14&callback=initMap" async defer>
-      </script>
+        </script>
 
   </body>
 </html>
