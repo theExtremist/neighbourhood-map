@@ -2,8 +2,8 @@ var places = [];
 
 function getPlaces(){
 
-    //build url
-    //the resuls only display local events and art and entertainement venues
+    // build url
+    // the resuls only display local events and art and entertainement venues
     // within a 1kilometer radius
     var fourSquareUrl =  "https://api.foursquare.com/v2/venues/search?";
     fourSquareUrl += $.param({
@@ -16,7 +16,7 @@ function getPlaces(){
         "radius"        : 1000,
     });
 
-    $.getJSON(
+    return $.getJSON(
         fourSquareUrl,
         function(data)
         {
@@ -29,15 +29,11 @@ function getPlaces(){
                     "location"  : results[i].location,
                 });
             };
-            initMap();
         }
-    ).error(function (e)
-        {
-            return e;
-        }
-    );
+    ).error(function (e){
+        $("body").prepend("We could not retrieve places from foursquare, please try again later");
+    });
 };
-
 
 
 
@@ -55,10 +51,15 @@ var ViewModel = function() {
 
     places.forEach(function (p) {
         self.locations.push(new place(p));
-        new google.maps.Marker({position: p.location, label: p.name, map: map});
+        new google.maps.Marker({position: p.location, map: map});
     });
 }
 
+
+
+$.when(getPlaces(), initMap()).done(function(){
+    ko.applyBindings(new ViewModel());
+});
 
 
 function toggleNav() {
