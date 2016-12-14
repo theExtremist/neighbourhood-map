@@ -51,14 +51,14 @@ var ViewModel = function() {
 
     places.forEach(function (p) {
         self.locations.push(new place(p));
-        new google.maps.Marker({position: p.location, map: map});
+        addMarker(p, map);
     });
 }
 
-
-
-$.when(getPlaces(), initMap()).done(function(){
-    ko.applyBindings(new ViewModel());
+$.when(getCurrentLocation()).done(function(){
+    $.when(getPlaces(), initMap()).done(function(){
+        ko.applyBindings(new ViewModel());
+    });
 });
 
 
