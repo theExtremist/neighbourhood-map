@@ -1,13 +1,13 @@
 var places = [];
 
 function getPlaces(){
-
+    console.log("entering 4 square");
     // build url
     // the resuls only display local events and art and entertainement venues
     // within a 1kilometer radius
     var fourSquareUrl =  "https://api.foursquare.com/v2/venues/search?";
     fourSquareUrl += $.param({
-        "ll"            : "-37.882,145.163",
+        "ll"            : pos.lat + "," + pos.lng,
         "client_id"     : "1PH5RDBJLQSDHXMBR115JZ5P10RDQCJKFZQZCKCS4ZGDD1IZ",
         "client_secret" : "1RVTY1L5KPDRCUVUV2YBYN2LAMS3SEGEFDNAZDHGPQQ5MHP5",
         "v"             : "20161209",
@@ -40,7 +40,7 @@ function getPlaces(){
 var place = function(data) {
     this.name = ko.observable(data.name);
     this.location = ko.observable(data.location);
-}
+};
 
 
 
@@ -53,7 +53,8 @@ var ViewModel = function() {
         self.locations.push(new place(p));
         addMarker(p, map);
     });
-}
+};
+
 
 $.when(getCurrentLocation()).done(function(){
     $.when(getPlaces(), initMap()).done(function(){
@@ -61,7 +62,6 @@ $.when(getCurrentLocation()).done(function(){
     });
 });
 
-
 function toggleNav() {
   document.getElementById("myNav").classList.toggle("open");
-}
+};
