@@ -1,47 +1,26 @@
+CONTENTSTRING = '<div id="info-content"> <img id="info-image" src="https://www.flickr.com/photos/teekay-72/7651549856"> Theirry</div>'
+
+
 var places = [];
 
-function getPlaces(){
-    console.log("entering 4 square");
-    // build url
-    // the resuls only display local events and art and entertainement venues
-    // within a 1kilometer radius
-    var fourSquareUrl =  "https://api.foursquare.com/v2/venues/search?";
-    fourSquareUrl += $.param({
-        "ll"            : pos.lat + "," + pos.lng,
-        "client_id"     : "1PH5RDBJLQSDHXMBR115JZ5P10RDQCJKFZQZCKCS4ZGDD1IZ",
-        "client_secret" : "1RVTY1L5KPDRCUVUV2YBYN2LAMS3SEGEFDNAZDHGPQQ5MHP5",
-        "v"             : "20161209",
-        "limit"         : 10,
-        "categoryId"    : "4d4b7105d754a06373d81259,4d4b7104d754a06370d81259",
-        "radius"        : 1000,
+$.when(getCurrentLocation()).done(function() {
+    $.when(getPlaces(), initMap()).done(function() {
+        ko.applyBindings(new ViewModel());
     });
-
-    return $.getJSON(
-        fourSquareUrl,
-        function(data)
-        {
-            results = data.response.venues;
-            for (var i = results.length - 1; i >= 0; i--)
-            {
-                places.push({
-                    "id"        : results[i].id,
-                    "name"      : results[i].name,
-                    "location"  : results[i].location,
-                });
-            };
-        }
-    ).error(function (e){
-        $("body").prepend("We could not retrieve places from foursquare, please try again later");
-    });
-};
-
+});
 
 
 var place = function(data) {
     this.name = ko.observable(data.name);
     this.location = ko.observable(data.location);
-};
 
+    this.setMarker = function(marker) {
+        this.marker = marker;
+        this.marker.set("parent", this);
+    };
+
+    this.contentString = ko.observable(CONTENTSTRING);
+};
 
 
 var ViewModel = function() {
@@ -50,17 +29,32 @@ var ViewModel = function() {
     this.locations = ko.observableArray([]);
 
     places.forEach(function (p) {
-        self.locations.push(new place(p));
-        addMarker(p, map);
+        newPlace = new place(p);
+        self.locations.push(newPlace);
+        newPlace.setMarker(addMarker(p, map));
     });
+
+
+    this.setPlace = function(aPlace){
+        activate(aPlace);
+    };
 };
 
 
-$.when(getCurrentLocation()).done(function(){
-    $.when(getPlaces(), initMap()).done(function(){
-        ko.applyBindings(new ViewModel());
-    });
-});
+
+function activate(aPlace){
+
+    if (!aPlace.images) {
+        $.when(getFlicker(aPlace)).done(function(){
+            console.log(aPlace.images());
+        });
+    }
+
+    toggleBounce(aPlace.marker);
+    displayInfo(aPlace);
+};
+
+
 
 function toggleNav() {
   document.getElementById("myNav").classList.toggle("open");

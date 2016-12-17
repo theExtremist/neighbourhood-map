@@ -21,6 +21,8 @@
         <span class="hamburger" onclick="toggleNav()">&#9776;</span>
 
 
+        <div>name</div>
+
 
         <!-- Add drawer menu with appropriate option if the user is logged in -->
         <div id="myNav" class="overlay">
@@ -42,7 +44,7 @@
                 </div>
 
                 <ul id="locations-list" data-bind="foreach: locations">
-                    <li data-bind="text: name"></li>
+                    <li data-bind="text: name, click: $root.setPlace"></li>
                 </ul>
 
             </div>
@@ -50,11 +52,10 @@
 
         <script src="js/libs/jquery.min.js"></script>
         <script src="js/libs//knockout-3.4.1.js"></script>
+        <script src="js/flicker.js"></script>
+        <script src="js/foursquare.js"></script>
         <script src="js/map.js"></script>
         <script src="js/app.js"></script>
-
-
-
 
 
   </body>

@@ -1,5 +1,6 @@
 var map;
 var pos = {lat: -37.8136, lng: 144.9631};
+var infowindow;
 
 function initMap() {
     console.log("entering init map");
@@ -8,7 +9,7 @@ function initMap() {
         $("body").prepend("We cannot access google maps at the moment. Please try again later");
     }, 5000);
 
-    var url = "https://maps.googleapis.com/maps/api/js?key=AIzaSyDhXe13Q7PPa0_gmdT9LLWDtsZm0dV4Z15"
+    var url = "https://maps.googleapis.com/maps/api/js?v=3.20&key=AIzaSyDhXe13Q7PPa0_gmdT9LLWDtsZm0dV4Z15"
     return $.ajax( {
         url: url,
         dataType: "script",
@@ -22,16 +23,33 @@ function initMap() {
 };
 
 
-function addMarker(place, map){
+function addMarker(place, map) {
     var marker = new google.maps.Marker({position: place.location, map: map});
-    marker.addListener('click', toggleBounce);
+    marker.addListener('click', function(){
+            activate(this.parent);
+        }
+    );
 
-    function toggleBounce() {
-        marker.setAnimation(google.maps.Animation.BOUNCE);
-        setTimeout(function(){
-            marker.setAnimation(null);
-        }, 2100);
-    };
+    return marker;
+};
+
+
+function toggleBounce(marker) {
+    marker.setAnimation(google.maps.Animation.BOUNCE);
+    setTimeout(function(){
+        marker.setAnimation(null);
+    }, 2100);
+};
+
+
+function displayInfo(aPlace) {
+
+    if (!infowindow){
+        infowindow = new google.maps.InfoWindow();
+    }
+
+    infowindow.setContent(aPlace.contentString());
+    infowindow.open(map, aPlace.marker);
 };
 
 
@@ -55,3 +73,4 @@ function getCurrentLocation() {
 
     return def.promise();
 };
+
