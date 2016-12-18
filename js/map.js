@@ -15,8 +15,9 @@ function initMap() {
         dataType: "script",
         success: function(response) {
             map = new google.maps.Map(document.getElementById('map'),
-                {center: pos, zoom: 13, mapTypeControl: false}
+                {center: pos, zoom: 13, mapTypeControl: false, disableDefaultUI: true}
             );
+            initialiseIW();
             clearTimeout(googleRequestTimeout);
         }
     });
@@ -29,7 +30,6 @@ function addMarker(place, map) {
             activate(this.parent);
         }
     );
-
     return marker;
 };
 
@@ -43,14 +43,37 @@ function toggleBounce(marker) {
 
 
 function displayInfo(aPlace) {
-
-    if (!infowindow){
-        infowindow = new google.maps.InfoWindow();
-    }
-
-    infowindow.setContent(aPlace.contentString());
     infowindow.open(map, aPlace.marker);
+    $('.info-title').text(aPlace.name());
+    $('.info-image').attr("src", "test.jpg");
+    $('.info-address').text(aPlace.location().formattedAddress);
 };
+
+
+function initialiseIW() {
+
+    CONTENTSTRING = '<div class="info-content">\
+                     <div class="info-title"></div>\
+                     <img class="info-image">\
+                     <span class="info-address"></span>\
+                </div>';
+
+
+    infowindow = new google.maps.InfoWindow();
+    infowindow.setContent(CONTENTSTRING);
+
+    google.maps.event.addListener(infowindow, 'domready', function() {
+        var iwOuter = $('.gm-style-iw');
+        var iwBackground = iwOuter.prev();
+        var iwCloseBtn = iwOuter.next();
+
+        iwCloseBtn.css({right: '45px', top: '15px'});
+        iwCloseBtn.siblings(2).css({right: '45px', top: '10px'});
+
+        iwBackground.children(':nth-child(2)').css({'display' : 'none'});
+        iwBackground.children(':nth-child(4)').css({'display' : 'none'});
+    });
+}
 
 
 function getCurrentLocation() {
@@ -60,16 +83,16 @@ function getCurrentLocation() {
     var def = $.Deferred();
     //default to melbourne if there is no geolocation or the user declines
 
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(function(position) {
-        pos = {lat: position.coords.latitude,lng: position.coords.longitude};
+    // if (navigator.geolocation) {
+    //     navigator.geolocation.getCurrentPosition(function(position) {
+    //     pos = {lat: position.coords.latitude,lng: position.coords.longitude};
+    //     def.resolve();
+    //     }, function() {
+    //         def.resolve();
+    //     });
+    // } else {
         def.resolve();
-        }, function() {
-            def.resolve();
-        });
-    } else {
-        def.resolve();
-    };
+    // };
 
     return def.promise();
 };

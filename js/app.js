@@ -1,13 +1,12 @@
-CONTENTSTRING = '<div id="info-content"> <img id="info-image" src="https://www.flickr.com/photos/teekay-72/7651549856"> Theirry</div>'
-
-
 var places = [];
 
 $.when(getCurrentLocation()).done(function() {
     $.when(getPlaces(), initMap()).done(function() {
-        ko.applyBindings(new ViewModel());
+            ko.applyBindings(new ViewModel());
+
     });
 });
+
 
 
 var place = function(data) {
@@ -18,8 +17,6 @@ var place = function(data) {
         this.marker = marker;
         this.marker.set("parent", this);
     };
-
-    this.contentString = ko.observable(CONTENTSTRING);
 };
 
 
@@ -29,24 +26,29 @@ var ViewModel = function() {
     this.locations = ko.observableArray([]);
 
     places.forEach(function (p) {
-        newPlace = new place(p);
+        newPlace = new place(p); //add var
         self.locations.push(newPlace);
         newPlace.setMarker(addMarker(p, map));
     });
 
+    currentPlace = ko.observable(this.locations()[0]);
 
     this.setPlace = function(aPlace){
+        currentPlace(aPlace);
         activate(aPlace);
+        console.log(currentPlace().name());
+        aPlace.name("D");
     };
-};
 
+    ko.applyBindingsToNode(document.getElementById("test"),{text: currentPlace().name});
+};
 
 
 function activate(aPlace){
 
     if (!aPlace.images) {
         $.when(getFlicker(aPlace)).done(function(){
-            console.log(aPlace.images());
+            // console.log(aPlace.images());
         });
     }
 
