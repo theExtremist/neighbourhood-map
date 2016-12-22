@@ -1,6 +1,8 @@
 var map;
 var pos = {lat: -37.8136, lng: 144.9631};
 var infowindow;
+var x = 0;
+
 
 function initMap() {
     console.log("entering init map");
@@ -19,6 +21,7 @@ function initMap() {
             );
             initialiseIW();
             clearTimeout(googleRequestTimeout);
+
         }
     });
 };
@@ -26,8 +29,10 @@ function initMap() {
 
 function addMarker(place, map) {
     var marker = new google.maps.Marker({position: place.location, map: map});
+
+    marker.set("class", "gm-marker")
     marker.addListener('click', function(){
-            activate(this.parent);
+            vm.setPlace(this.parent);
         }
     );
     return marker;
@@ -43,24 +48,26 @@ function toggleBounce(marker) {
 
 
 function displayInfo(aPlace) {
+
+    var reBind = infowindow.getMap() == null;
+
+    toggleBounce(aPlace.marker);
     infowindow.open(map, aPlace.marker);
-    $('.info-title').text(aPlace.name());
-    $('.info-image').attr("src", "test.jpg");
-    $('.info-address').text(aPlace.location().formattedAddress);
+
+    if (reBind){
+        var wrapper = document.getElementById("iw-wrapper");
+        ko.cleanNode(wrapper);
+        ko.applyBindings(vm, wrapper);
+    }
+
 };
 
 
 function initialiseIW() {
 
-    CONTENTSTRING = '<div class="info-content">\
-                     <div class="info-title"></div>\
-                     <img class="info-image">\
-                     <span class="info-address"></span>\
-                </div>';
-
-
     infowindow = new google.maps.InfoWindow();
-    infowindow.setContent(CONTENTSTRING);
+
+
 
     google.maps.event.addListener(infowindow, 'domready', function() {
         var iwOuter = $('.gm-style-iw');
@@ -73,6 +80,15 @@ function initialiseIW() {
         iwBackground.children(':nth-child(2)').css({'display' : 'none'});
         iwBackground.children(':nth-child(4)').css({'display' : 'none'});
     });
+
+    var contentStr = '<div id = "iw-wrapper">\
+                    <div class="iw-content", data-bind="with: currentPlace()">\
+                        <div class="iw-title" data-bind="text: name"></div>\
+                        <img id="iw-image" data-bind="click: $parent.nextPic(), attr: {src: currentImage()}">\
+                        <div class="iw-address" data-bind="text: location().formattedAddress"></div>\
+                    </div>\
+                  </div>'
+    infowindow.setContent(contentStr);
 }
 
 

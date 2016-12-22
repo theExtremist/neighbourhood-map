@@ -21,6 +21,9 @@ html, body {
     height: 100%;
 }
 
+.gm-marker {
+    color: green;
+}
 
 
 /*
@@ -139,31 +142,38 @@ html, body {
    border-radius: 3px 3px 10px 10px;
 
    width: 200px !important;
-   height: 250px;
+   height: 300px;
    z-index: 2;
 }
 
-.info-content {
+
+.iw-content {
     width: 100%;
 
     font-size: 18px;
     color: #ffffff;
 }
 
-.info-title {
+.iw-title {
     background-color: #64e185;
 }
 
 
-.info-image {
+#iw-image {
     display: flex;
     border-style: none;
 
-    width: 100%;
-    height: 50%;
+    align-self: center;
+
+    width: 198px;
+    height: 200px;
+
+    overflow: none;
+
+    z-index: 10100;
 }
 
-.info-address {
+.iw-address {
     display: flex;
     border-style: none;
 
@@ -171,5 +181,11 @@ html, body {
     color: #0d7c2a;
     font-size: 14px;
 
-    overflow: scroll;
+    overflow: none;
+}
+
+.iw-next {
+    position: relative;
+    background: rgba(255, 255, 255, 1);
+    border: none;
 }

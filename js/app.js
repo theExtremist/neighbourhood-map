@@ -1,10 +1,11 @@
 var places = [];
 
+
 $.when(getCurrentLocation()).done(function() {
     $.when(getPlaces(), initMap()).done(function() {
             ko.applyBindings(new ViewModel());
-
     });
+
 });
 
 
@@ -12,6 +13,8 @@ $.when(getCurrentLocation()).done(function() {
 var place = function(data) {
     this.name = ko.observable(data.name);
     this.location = ko.observable(data.location);
+    this.currentImage = ko.observable("");
+    // this.images = [];
 
     this.setMarker = function(marker) {
         this.marker = marker;
@@ -25,39 +28,47 @@ var ViewModel = function() {
 
     this.locations = ko.observableArray([]);
 
+
+
     places.forEach(function (p) {
         newPlace = new place(p); //add var
         self.locations.push(newPlace);
         newPlace.setMarker(addMarker(p, map));
     });
 
-    currentPlace = ko.observable(this.locations()[0]);
+    currentPlace = ko.observable(this.locations()[1]);
 
     this.setPlace = function(aPlace){
+        this.index = 0;
         currentPlace(aPlace);
-        activate(aPlace);
-        console.log(currentPlace().name());
-        aPlace.name("D");
+
+        if (!currentPlace().images) {
+            $.when(getFlicker(currentPlace())).done(function(){
+                currentPlace().currentImage(currentPlace().images[0].url_q);
+                displayInfo(currentPlace());
+            });
+        } else {
+            displayInfo(currentPlace());
+        }
     };
 
-    ko.applyBindingsToNode(document.getElementById("test"),{text: currentPlace().name});
-};
+    this.nextPic = function(){
 
-
-function activate(aPlace){
-
-    if (!aPlace.images) {
-        $.when(getFlicker(aPlace)).done(function(){
-            // console.log(aPlace.images());
-        });
+        if (currentPlace().images) {
+            if (self.index == currentPlace().images.length - 1) {
+                self.index = 0;
+            } else {
+                self.index++;
+            }
+            currentPlace().currentImage(currentPlace().images[self.index].url_q);
+        }
     }
 
-    toggleBounce(aPlace.marker);
-    displayInfo(aPlace);
 };
-
 
 
 function toggleNav() {
   document.getElementById("myNav").classList.toggle("open");
 };
+
+var vm = new ViewModel();
