@@ -1,7 +1,7 @@
 var map;
 var pos = {lat: -37.8136, lng: 144.9631};
 var infowindow;
-var x = 0;
+
 
 
 function initMap() {
@@ -48,7 +48,6 @@ function toggleBounce(marker) {
 
 
 function displayInfo(aPlace) {
-
     var reBind = infowindow.getMap() == null;
 
     toggleBounce(aPlace.marker);
@@ -64,10 +63,7 @@ function displayInfo(aPlace) {
 
 
 function initialiseIW() {
-
     infowindow = new google.maps.InfoWindow();
-
-
 
     google.maps.event.addListener(infowindow, 'domready', function() {
         var iwOuter = $('.gm-style-iw');
@@ -97,17 +93,17 @@ function getCurrentLocation() {
     console.log("Entering getCurrentLocation");
 
     var def = $.Deferred();
-    //default to melbourne if there is no geolocation or the user declines
+    // default to melbourne if there is no geolocation or the user declines
 
     // if (navigator.geolocation) {
     //     navigator.geolocation.getCurrentPosition(function(position) {
     //     pos = {lat: position.coords.latitude,lng: position.coords.longitude};
     //     def.resolve();
     //     }, function() {
-    //         def.resolve();
-    //     });
+            def.resolve();
+        // });
     // } else {
-        def.resolve();
+    //     def.resolve();
     // };
 
     return def.promise();

@@ -1,6 +1,6 @@
 // 1dac1d1953756ef7
 function getFlicker(aPlace) {
-    console.log("entering flicker");
+    // console.log("entering flicker");
 
     // build url
     // the resuls only display local events and art and entertainement venues
@@ -26,5 +26,6 @@ function getFlicker(aPlace) {
         }
     ).error(function (e) {
         $("body").prepend("We could not retrieve places from foursquare, please try again later");
+        console.log("We could not retrieve places from foursquare, please try again later");
     });
 };

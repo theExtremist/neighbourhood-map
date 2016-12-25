@@ -9,7 +9,7 @@ function getPlaces() {
         "client_id"     : "1PH5RDBJLQSDHXMBR115JZ5P10RDQCJKFZQZCKCS4ZGDD1IZ",
         "client_secret" : "1RVTY1L5KPDRCUVUV2YBYN2LAMS3SEGEFDNAZDHGPQQ5MHP5",
         "v"             : "20161209",
-        "limit"         : 10,
+        "limit"         : 20,
         "categoryId"    : "4d4b7105d754a06373d81259,4d4b7104d754a06370d81259",
         "radius"        : 1000,
     });

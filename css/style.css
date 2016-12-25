@@ -73,8 +73,15 @@ html, body {
     -ms-flex-direction: column;
         flex-direction: column;
 
-    /*margin-top: 1em;*/
     padding: 1em;
+
+    overflow: scroll;
+}
+
+
+.overlay.open: .overlay-content-small {
+    position: fixed;
+
 }
 
 
@@ -188,4 +195,25 @@ html, body {
     position: relative;
     background: rgba(255, 255, 255, 1);
     border: none;
+}
+
+
+
+/*
+ *
+ * search
+ *
+ *
+ */
+
+#search {
+    background-image: url('searchpic.png');
+    background-position: 1px 1px;
+    background-repeat: no-repeat;
+    width: 85%;
+    font-size: 14px;
+    padding: 5px 20px 5px 40px;
+    border: 1px solid #ddd;
+    margin: 10px 12px 5px 0px;
+
 }
