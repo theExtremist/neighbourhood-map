@@ -25,16 +25,37 @@ var place = function(data) {
 var ViewModel = function() {
     var self = this;
     self.index = 0;
-    self.locations = ko.observableArray([]);
+    self.allLocations = [];
+    self.locations = ko.observableArray(self.allLocations);
 
     places.forEach(function (p) {
         newPlace = new place(p); //add var
-        self.locations.push(newPlace);
+        self.allLocations.push(newPlace);
         newPlace.setMarker(addMarker(p, map));
     });
 
-    currentPlace = ko.observable(self.locations()[1]);
+    this.filter = ko.observable();
 
+    this.filterLocations = this.filter.subscribe(function (filter) {
+        self.filter(self.filter().toUpperCase());
+        self.locations((self.allLocations.filter(filtration)));
+
+        for (i=0; i < self.allLocations.length; i++) {
+            if (self.locations.indexOf(self.allLocations[i]) > -1) {
+                self.allLocations[i].marker.setMap(map);
+            } else {
+                self.allLocations[i].marker.setMap(null);
+            }
+        }
+
+    })
+
+    function filtration (location) {
+        return (location.name().toUpperCase().indexOf(self.filter()) > -1) ? true : false;
+    }
+
+
+    currentPlace = ko.observable(self.locations()[1]);
 
     this.setPlace = function(aPlace){
         self.index = 0;
@@ -65,3 +86,5 @@ function toggleNav() {
 };
 
 var vm = new ViewModel();
+
+
