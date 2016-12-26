@@ -73,7 +73,7 @@ var ViewModel = function() {
 
     this.nextPic = function(){
         if (currentPlace().images) {
-            self.index = (self.index == currentPlace().images.length - 1) ? 0 : self.index + 1;
+            self.index = (self.index >= currentPlace().images.length - 1) ? 0 : self.index + 1;
             currentPlace().currentImage(currentPlace().images[self.index].url_q);
         }
     }

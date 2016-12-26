@@ -8,12 +8,15 @@
 
 /* Optional: Makes the sample page fill the window. */
 html, body {
+
     height: 100%;
     max-width: 100%;
     max-height: 100%;
 
     padding: 3px;
     margin: 0;
+
+    overflow: hidden;
 }
 
 
@@ -46,7 +49,7 @@ html, body {
     display: flex;
     flex-direction: column;
 
-    height: 100%;
+    height: calc(100% - 12px);
     width: 0;
 
     position: fixed;
@@ -59,18 +62,15 @@ html, body {
 
     transition: 0.5s;
     color: #04ee56;
-
 }
 
 .overlay.open {
     width: 75%;
-
 }
 
 .overlay-content, .overlay-content-small {
     display: flex;
     flex-direction: column;
-
 
     overflow: scroll;
 
@@ -95,7 +95,6 @@ html, body {
     border: 1px solid #ddd;
     margin: 10px 12px 10px 0px;
 }
-
 
 .overlay-title {
     font-size: 2.3em;

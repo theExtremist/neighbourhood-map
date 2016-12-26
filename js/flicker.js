@@ -23,6 +23,9 @@ function getFlicker(aPlace) {
         url,
         function(data) {
             aPlace.images = data.photos.photo;
+            if (aPlace.images.length == 0){
+                aPlace.images[0] = {url_q: '/img/default.png'};
+            }
         }
     ).error(function (e) {
         $("body").prepend("We could not retrieve places from foursquare, please try again later");
