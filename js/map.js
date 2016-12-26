@@ -1,14 +1,12 @@
 var map;
-var pos = {lat: -37.8136, lng: 144.9631};
-var infowindow;
+var pos = {lat: -37.8136, lng: 144.9631}; // default location: Melbourne, Australia
+var infowindow; //Google maps infowindow
 
 
-
+// initialises the map
 function initMap() {
-    console.log("entering init map");
-
     var googleRequestTimeout = setTimeout(function () {
-        $("body").prepend("We cannot access google maps at the moment. Please try again later");
+        $("#error").append("We cannot access google maps at the moment. Please try again later. <br>");
     }, 5000);
 
     var url = "https://maps.googleapis.com/maps/api/js?v=3.20&key=AIzaSyDhXe13Q7PPa0_gmdT9LLWDtsZm0dV4Z15"
@@ -27,6 +25,7 @@ function initMap() {
 };
 
 
+// adds a marker to the map and set place as the parent of this marker
 function addMarker(place, map) {
     var marker = new google.maps.Marker({position: place.location, map: map});
 
@@ -39,6 +38,7 @@ function addMarker(place, map) {
 };
 
 
+//Makes the mark bounce for 2 secodnds
 function toggleBounce(marker) {
     marker.setAnimation(google.maps.Animation.BOUNCE);
     setTimeout(function(){
@@ -47,6 +47,8 @@ function toggleBounce(marker) {
 };
 
 
+//displays the infowindow
+//if the infowindow is not open, the contents of the infowindow are bound again
 function displayInfo(aPlace) {
     var reBind = infowindow.getMap() == null;
 
@@ -58,10 +60,12 @@ function displayInfo(aPlace) {
         ko.cleanNode(wrapper);
         ko.applyBindings(vm, wrapper);
     }
-
 };
 
 
+// the code used here is adapted from http://humaan.com/custom-html-markers-google-maps
+// makes a number of modifications to the information window.
+// finally a div is created and assigned to the infowindow with the relevant KO bindings
 function initialiseIW() {
     infowindow = new google.maps.InfoWindow();
 
@@ -88,23 +92,21 @@ function initialiseIW() {
 }
 
 
+// Attempts to determine the current location
+// if this fails, Melbourne, Australis is chosen as default location
 function getCurrentLocation() {
-
-    console.log("Entering getCurrentLocation");
-
     var def = $.Deferred();
-    // default to melbourne if there is no geolocation or the user declines
 
-    // if (navigator.geolocation) {
-    //     navigator.geolocation.getCurrentPosition(function(position) {
-    //     pos = {lat: position.coords.latitude,lng: position.coords.longitude};
-    //     def.resolve();
-    //     }, function() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function(position) {
+        pos = {lat: position.coords.latitude,lng: position.coords.longitude};
+        def.resolve();
+        }, function() {
             def.resolve();
-        // });
-    // } else {
-    //     def.resolve();
-    // };
+        });
+    } else {
+        def.resolve();
+    };
 
     return def.promise();
 };

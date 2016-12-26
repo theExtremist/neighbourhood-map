@@ -2,7 +2,7 @@ function getPlaces() {
     console.log("entering 4 square");
     // build url
     // the resuls only display local events and art and entertainement venues
-    // within a 1kilometer radius
+    // within a 1 kilometer radius
     var fourSquareUrl =  "https://api.foursquare.com/v2/venues/search?";
     fourSquareUrl += $.param({
         "ll"            : pos.lat + "," + pos.lng,
@@ -28,6 +28,6 @@ function getPlaces() {
             };
         }
     ).error(function (e) {
-        $("body").prepend("We could not retrieve places from foursquare, please try again later");
+        $("#error").append("We could not retrieve places from Foursquare, please try again later <br>");
     });
 };

@@ -1,17 +1,17 @@
 // 1dac1d1953756ef7
-function getFlicker(aPlace) {
-    // console.log("entering flicker");
 
-    // build url
-    // the resuls only display local events and art and entertainement venues
-    // within a 1kilometer radius
+// retrieves a maximum of 10 pictures for a given position within a 0.05km radius
+// if no pictures are available, a default photo is displayed.
+function getFlicker(aPlace) {
+
+    //build query url
     var url =  "https://api.flickr.com/services/rest/?";
     url += $.param({
         "method"        : "flickr.photos.search",
         "api_key"       : "4801506c6e7be98db3863019b62fc461",
         "lat"           : aPlace.location().lat,
         "lon"           : aPlace.location().lng,
-        "radius"        : 0.005,
+        "radius"        : 0.05,
         "format"        : "json",
         "nojsoncallback": 1,
         "page"          : 1,
@@ -28,7 +28,7 @@ function getFlicker(aPlace) {
             }
         }
     ).error(function (e) {
-        $("body").prepend("We could not retrieve places from foursquare, please try again later");
-        console.log("We could not retrieve places from foursquare, please try again later");
+        $("#error").text("We cannot load pictures from Flickr, please try again later");
+        return;
     });
 };
