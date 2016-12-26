@@ -43,16 +43,14 @@ html, body {
 }
 
 .overlay {
-    display: -ms-flexbox;
     display: flex;
-    -ms-flex-direction: column;
-        flex-direction: column;
+    flex-direction: column;
 
     height: 100%;
     width: 0;
 
     position: fixed;
-    overflow-x: hidden;
+    overflow: hidden;
     z-index: 1;
     top: 7px;
     left: 1;
@@ -61,33 +59,43 @@ html, body {
 
     transition: 0.5s;
     color: #04ee56;
+
 }
 
 .overlay.open {
     width: 75%;
+
 }
 
 .overlay-content, .overlay-content-small {
-    display: -ms-flexbox;
     display: flex;
-    -ms-flex-direction: column;
-        flex-direction: column;
+    flex-direction: column;
 
-    padding: 1em;
 
     overflow: scroll;
-}
 
-
-.overlay.open: .overlay-content-small {
-    position: fixed;
+    margin-bottom: 2px;
+    padding: 1em 1em 0em 1em;
 
 }
 
-
-.profile-pic {
-    max-height: 30%;
+.overlay-content-small {
+    flex-shrink: 0;
 }
+
+
+#search {
+    display: flex;
+    background-image: url('searchpic.png');
+    background-position: 1px 1px;
+    background-repeat: no-repeat;
+    width: 100%;
+    font-size: 14px;
+    padding: 5px 20px 5px 40px;
+    border: 1px solid #ddd;
+    margin: 10px 12px 10px 0px;
+}
+
 
 .overlay-title {
     font-size: 2.3em;
@@ -122,11 +130,10 @@ html, body {
 }
 
 .overlay hr {
+    display: flex;
     border-color: #f1f1f1;
     width: 100%;
 }
-
-
 
 
 /*
@@ -197,23 +204,3 @@ html, body {
     border: none;
 }
 
-
-
-/*
- *
- * search
- *
- *
- */
-
-#search {
-    background-image: url('searchpic.png');
-    background-position: 1px 1px;
-    background-repeat: no-repeat;
-    width: 100%;
-    font-size: 14px;
-    padding: 5px 20px 5px 40px;
-    border: 1px solid #ddd;
-    margin: 10px 12px 5px 0px;
-
-}

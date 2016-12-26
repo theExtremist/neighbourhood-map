@@ -26,20 +26,13 @@
             <a href="javascript:void(0)" class="closebtn" onclick="toggleNav()">&times;</a>
 
             <div class="overlay-content-small">
-                <div class="overlay-title">
-                    Places
-                </div>
-                <input id="search" placeholder="Search…" type="search"
-                       data-bind="textInput: filter">
+                <div class="overlay-title">Places</div>
+                <input id="search" placeholder="Search" type="search" data-bind="textInput: filter">
                 <hr>
             </div>
 
             <!-- Populate the drawer with links to categories  -->
             <div class="overlay-content">
-<!--                 <div class="overlay-title">
-
-                </div> -->
-
                 <ul id="locations-list" data-bind="foreach: locations">
                     <li data-bind="text: name, click: $root.setPlace"></li>
                 </ul>
