@@ -55,7 +55,7 @@ var ViewModel = function() {
             }
         }
 
-    })
+    });
 
     //helper function to filter contents of the locations array
     function filtration (location) {
@@ -89,14 +89,14 @@ var ViewModel = function() {
             self.index = (self.index >= currentPlace().images.length - 1) ? 0 : self.index + 1;
             currentPlace().currentImage(currentPlace().images[self.index].url_q);
         }
-    }
+    };
 
 };
 
 // opens the drawer menu
 function toggleNav() {
   document.getElementById("myNav").classList.toggle("open");
-};
+}
 
 var vm = new ViewModel();
 

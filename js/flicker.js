@@ -1,6 +1,6 @@
 // 1dac1d1953756ef7
 
-// retrieves a maximum of 10 pictures for a given position within a 0.05km radius
+// retrieves a maximum of 10 pictures for a given position within a 0.005km radius
 // if no pictures are available, a default photo is displayed.
 function getFlicker(aPlace) {
 
@@ -11,7 +11,7 @@ function getFlicker(aPlace) {
         "api_key"       : "4801506c6e7be98db3863019b62fc461",
         "lat"           : aPlace.location().lat,
         "lon"           : aPlace.location().lng,
-        "radius"        : 0.05,
+        "radius"        : 0.005,
         "format"        : "json",
         "nojsoncallback": 1,
         "page"          : 1,
@@ -23,7 +23,7 @@ function getFlicker(aPlace) {
         url,
         function(data) {
             aPlace.images = data.photos.photo;
-            if (aPlace.images.length == 0){
+            if (aPlace.images.length === 0){
                 aPlace.images[0] = {url_q: '/img/default.png'};
             }
         }
@@ -31,4 +31,4 @@ function getFlicker(aPlace) {
         $("#error").text("We cannot load pictures from Flickr, please try again later");
         return;
     });
-};
+}

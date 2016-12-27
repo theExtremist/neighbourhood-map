@@ -6,10 +6,10 @@ var infowindow; //Google maps infowindow
 // initialises the map
 function initMap() {
     var googleRequestTimeout = setTimeout(function () {
-        $("#error").append("We cannot access google maps at the moment. Please try again later. <br>");
+        $("#error").append("We cannot access google maps. Please try again later. <br>");
     }, 5000);
 
-    var url = "https://maps.googleapis.com/maps/api/js?v=3.20&key=AIzaSyDhXe13Q7PPa0_gmdT9LLWDtsZm0dV4Z15"
+    var url = "https://maps.googleapis.com/maps/api/js?v=3.20&key=AIzaSyDhXe13Q7PPa0_gmdT9LLWDtsZm0dV4Z15";
     return $.ajax( {
         url: url,
         dataType: "script",
@@ -22,20 +22,20 @@ function initMap() {
 
         }
     });
-};
+}
 
 
 // adds a marker to the map and set place as the parent of this marker
 function addMarker(place, map) {
     var marker = new google.maps.Marker({position: place.location, map: map});
 
-    marker.set("class", "gm-marker")
+    marker.set("class", "gm-marker");
     marker.addListener('click', function(){
             vm.setPlace(this.parent);
         }
     );
     return marker;
-};
+}
 
 
 //Makes the mark bounce for 2 secodnds
@@ -44,7 +44,7 @@ function toggleBounce(marker) {
     setTimeout(function(){
         marker.setAnimation(null);
     }, 2100);
-};
+}
 
 
 //displays the infowindow
@@ -60,7 +60,7 @@ function displayInfo(aPlace) {
         ko.cleanNode(wrapper);
         ko.applyBindings(vm, wrapper);
     }
-};
+}
 
 
 // the code used here is adapted from http://humaan.com/custom-html-markers-google-maps
@@ -81,13 +81,15 @@ function initialiseIW() {
         iwBackground.children(':nth-child(4)').css({'display' : 'none'});
     });
 
-    var contentStr = '<div id = "iw-wrapper">\
-                    <div class="iw-content", data-bind="with: currentPlace()">\
-                        <div class="iw-title" data-bind="text: name"></div>\
-                        <img id="iw-image" data-bind="click: $parent.nextPic(), attr: {src: currentImage()}">\
-                        <div class="iw-address" data-bind="text: location().formattedAddress"></div>\
-                    </div>\
-                  </div>'
+    var contentStr =
+        '<div id = "iw-wrapper">\
+          <div class="iw-content", data-bind="with: currentPlace()">\
+              <div class="iw-title" data-bind="text: name"></div>\
+              <img id="iw-image" data-bind="click: $parent.nextPic(), attr: {src: currentImage()}">\
+              <div class="iw-address" data-bind="text: location().formattedAddress"></div>\
+          </div>\
+        </div>';
+
     infowindow.setContent(contentStr);
 }
 
@@ -106,8 +108,8 @@ function getCurrentLocation() {
         });
     } else {
         def.resolve();
-    };
+    }
 
     return def.promise();
-};
+}
 
